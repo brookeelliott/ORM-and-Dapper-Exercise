@@ -1,9 +1,9 @@
 ﻿//using System;
-using MySql.Data.MySqlClient;
 using System.Data;
-//using Microsoft.Extensions.Configuration;
 //using System.IO;
-//using MySql.Data.MySqlClient;
+using MySql.Data.MySqlClient;
+using Microsoft.Extensions.Configuration;
+
 namespace ORM_Dapper
 {
     public class Program
@@ -16,6 +16,14 @@ namespace ORM_Dapper
                             .Build();
             string connString = config.GetConnectionString("DefaultConnection");
             IDbConnection conn = new MySqlConnection(connString);
+
+            var repo = new DapperDepartmentRepository(conn);
+
+            var departments = repo.GetAllDepartments();
+            foreach(var dept in departments)
+            {
+                Console.WriteLine($"{dept.DepartmentID} {dept.Name}");
+            }
         }
     }
 }
